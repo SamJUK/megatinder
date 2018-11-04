@@ -1,3 +1,7 @@
+/**
+ * @TODO: Abstacrt functions out properly
+ */
+
 "use strict";
 const dotenv = require('../dotenv-sam');
 dotenv.config();
@@ -13,6 +17,49 @@ const genders = [
     'Male',
     'Female'
 ];
+
+const save_user_data =  function(results) {
+    for(let i = 0; i < results.length; i++) {
+        let id = results[i]._id;
+        let name = results[i].name;
+        let path = './profiles/mine/'+ id +'.json';
+
+        if(fs.existsSync(path))
+            continue;
+
+        console.log('Wrote Data for ' + name + ' : ' + id);
+        fs.writeFileSync(path, JSON.stringify(results[i]));
+    }
+
+    // Wait for 5 seconds not to overwhelm the server
+    // Unless we have over 50 items then wait 10 minutes
+    let timeout = 5 * 1000;
+    setTimeout(mine, timeout);
+}
+
+const mine = () => {
+    tinderClient.getRecommendations(1, function(err, data) {
+        if(err){
+            console.log('An error occured!', JSON.stringify(err));
+            fs.writeFileSync('errors.json', JSON.stringify(err));
+            return;
+        }
+
+        if(data.hasOwnProperty('message') && data.message === 'recs exhausted'){
+            console.log('Recs Exhausted Waiting for 30 minutes');
+            setTimeout(mine, (60 * 1000) * 30);
+            return;
+        }
+
+        if(data.hasOwnProperty('message') && data.message === 'recs timeout') {
+            console.log('Recs Timeout Waiting for 30 minutes');
+            setTimeout(mine, (60 * 1000) * 30);
+            return;
+        }
+
+        save_user_data(data.results);
+    });
+};
 
 const onAuth = () => {
     if( tinderClient.userId === null ) {
@@ -49,7 +96,7 @@ const onAuth = () => {
     console.log(`Groups: ${JSON.stringify(user.groups)}`);
     divider();
 
-    // Do Miney things
+    mine();
 };
 
 const authenticate = () => {

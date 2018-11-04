@@ -7,14 +7,15 @@
     "auth": "node ./AutoAuth/index.js",
     "mine": "node ./Miner/index.js",
     "web": "node ./Web/Backend/Server.js",
-
     "build": "node_modules/grunt/bin/grunt",
-    "build-css": "node_modules/grunt/bin/grunt less"
+    "build-css": "node_modules/grunt/bin/grunt less",
+    "api-dev": "nodemon Web/Backend/Api.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
     "fs-extra": "^7.0.0",
@@ -27,8 +28,12 @@
     "less-plugin-autoprefix": "^2.0.0",
     "less-plugin-glob": "^2.0.2",
     "load-grunt-tasks": "^4.0.0",
+    "morgan": "^1.9.1",
     "prompt-promise": "^1.0.3",
     "puppeteer": "^1.9.0",
     "tinder": "^1.19.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.5"
   }
 }
