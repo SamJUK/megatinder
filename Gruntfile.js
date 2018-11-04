@@ -17,6 +17,6 @@ module.exports = function (grunt) {
             }
         }
     });
-    grunt.loadNpmTasks('grunt-contrib-less', 'grunt-contrib-clean');
-    grunt.registerTask('default', [ 'less', "clean"]);
+    grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.registerTask('default', ['less']);
 };
