@@ -6,4 +6,4 @@ const port = 8080;
 const static_path = express.static(`${__dirname}/../Frontend/`);
 console.log(`Static Path: ${__dirname}/../Frontend/`);
 app.use(static_path);
-http.listen(port, () => console.log('Web Server on *:' + port));
+http.listen(port, () => console.log('Started Web Server  on *:' + port));

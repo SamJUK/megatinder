@@ -7,17 +7,24 @@ router.get('/', (req, res, next) => {
     const offset = req.body.offset || 0;
     const limit = req.body.limit || 5;
 
-    const profiles = model.getUsers({
+    let opts =  {
         offset: offset,
         limit: limit
-    });
+    };
 
-    res.status(200).json(profiles);
+    model.getUsers(req.db, opts).then(function(doc) {
+        res.status(200).json(doc);
+    }).catch(function(err) {
+        const error = new Error(err);
+        error.status = 500;
+        next(error);
+        return;
+    });
 });
 
 router.get('/:id', (req, res, next) => {
     const id = req.params.id;
-    const user = model.getUser(id);
+    const user = model.getUser(req.db, id);
 
     if(user === false) {
         const error = new Error('User Not Found');
@@ -27,6 +34,25 @@ router.get('/:id', (req, res, next) => {
     }
 
     res.status(200).json(user);
+});
+
+
+router.put('/:id', (req, res, next) => {
+   const id = req.params.id;
+
+   if(req.body.hasOwnProperty('_id') && req.body._id !== null) {
+     model.insertUser(req.db, req.body)
+         .then(function(doc) {
+            res.status(200).json(doc);
+         })
+         .catch(function(err) {
+             const error = new Error(err.errmsg);
+             error.status = 500;
+             next(error);
+             return;
+         });
+   }
+
 });
 
 module.exports = router;

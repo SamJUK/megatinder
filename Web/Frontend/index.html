@@ -16,27 +16,24 @@
         <div class="card-stack__card">
             <div class="card-stack__image-container">
                 <div class="card-stack__image-counter">
-                    <div class="card-stack__image-count card-stack__image-count--active"></div>
-                    <div class="card-stack__image-count"></div>
-                    <div class="card-stack__image-count"></div>
                 </div>
-                <img class="card-stack__img" src="https://via.placeholder.com/1000x1000" alt="User's Picture"/>
+                <img class="card-stack__img img_val" src="https://via.placeholder.com/1000x1000" alt="User's Picture"/>
             </div>
             <div class="card-stack__meta">
-                <h2 class="card-stack__text--primary card-stack__name">Jane Doe<span class="card-stack__text--primary card-stack__age">24</span></h2>
+                <h2 class="card-stack__text--primary card-stack__name"><span class="name_val">Jane Doe</span><span class="card-stack__text--primary card-stack__age age_val">24</span></h2>
                 <span class="card-stack__text--secondary card-stack__employment">
                     <svg class="card-stack__text-icon">
                       <use href="#svg_employment"></use>
                     </svg>
-                    Place of employment
+                    <span class="employment_val">Place of employment</span>
                 </span>
                 <span class="card-stack__text--secondary card-stack__distance">
                     <svg class="card-stack__text-icon">
                         <use href="#svg_location"></use>
                     </svg>
-                    5 Miles Away
+                    <span class="distance_val">5</span> Miles Away
                 </span>
-                <p class="card-stack__text--secondary card-stack__bio">
+                <p class="card-stack__text--secondary card-stack__bio bio_val">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ac leo id turpis auctor elementum. Aenean id libero finibus, tempor tortor nec, viverra orci.
                 </p>
             </div>
@@ -65,5 +62,7 @@
     </symbol>
 </svg>
 <!-- /SVG MAP -->
+
+<script src="Assets/scripts/js/app.js"></script>
 </body>
 </html>
