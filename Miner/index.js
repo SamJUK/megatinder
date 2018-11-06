@@ -7,6 +7,7 @@ const dotenv = require('../dotenv-sam');
 dotenv.config();
 
 const fs = require('fs-extra');
+const http = require("http");
 const tinder = require('tinder');
 const tinderClient = new tinder.TinderClient();
 global.tinderClient = tinderClient;
@@ -22,20 +23,28 @@ const save_user_data =  function(results) {
     for(let i = 0; i < results.length; i++) {
         let id = results[i]._id;
         let name = results[i].name;
-        let path = './profiles/mine/'+ id +'.json';
 
-        if(fs.existsSync(path))
-            continue;
+        let put_opts = {
+            host: process.env.API_HOST || 'localhost',
+            port: process.env.API_PORT || '8081',
+            path: `/profiles/${id}`,
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
 
-        console.log('Wrote Data for ' + name + ' : ' + id);
-        fs.writeFileSync(path, JSON.stringify(results[i]));
+        let req = http.request(put_opts);
+        req.write(JSON.stringify(results[i]));
+        req.end();
+        console.log('PUT Data for ' + name + ' : ' + id);
     }
 
     // Wait for 5 seconds not to overwhelm the server
     // Unless we have over 50 items then wait 10 minutes
     let timeout = 5 * 1000;
     setTimeout(mine, timeout);
-}
+};
 
 const mine = () => {
     tinderClient.getRecommendations(1, function(err, data) {
